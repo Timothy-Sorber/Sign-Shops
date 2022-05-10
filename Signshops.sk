@@ -1,0 +1,37 @@
+on right click:
+ block is a sign:
+  if line 1 is "BUY":
+   set {_Cost} to line 2 parsed as number
+   {Coins::%player%} is greater than {_Cost} - 1
+   set {_item} to line 3 parsed as item
+   give {_item} to player
+   subtract {_Cost} from {Coins::%player%}
+   message "<green>bought %{_item}%!"
+  if line 1 is "SELL":
+   set {_Cost} to line 2 parsed as number
+   set {_item} to line 3 parsed as item
+   player has {_item}
+   add {_Cost} to {Coins::%player%}
+   remove {_item} from inventory of player
+   broadcast "<red>%player% <grey>has <green>sold <red>%{_item}% <grey>for <yellow>%{_Cost}%"
+   
+   
+   
+command /bal:
+ trigger:
+  message "<red>%player%, <green>Your balance is: <yellow>%{Coins::%player%}%"
+  
+on first join:
+ set {Coins::%player%} to 100
+ 
+command /setownbal <number>:
+ permission: op
+ trigger:
+  set {Coins::%player%} to arg
+  message "<green>Successfully set your balance to <yellow>%arg%!"
+
+on death:
+    victim is a player
+    damager is a player
+    send "<green>You've killed &c%victim% <green>and earned <yellow>10 <green>Coins" to damager
+    add 10 to {Coins::%player%}
