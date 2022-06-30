@@ -17,9 +17,12 @@ on right click:
    
    
    
-command /bal:
+command /bal [<player>]:
  trigger:
-  message "<red>%player%, <green>Your balance is: <yellow>%{Coins::%player%}%"
+  if arg is not set:
+   message "<red>%player%, <green>Your balance is: <yellow>%{Coins::%player%}%"
+  else:
+   message "<green>%arg%'s balance is <yellow>%{Coins::%arg%}% <green>Coins!"
   
 on first join:
  set {Coins::%player%} to 100
@@ -29,6 +32,12 @@ command /setownbal <number>:
  trigger:
   set {Coins::%player%} to arg
   message "<green>Successfully set your balance to <yellow>%arg%!"
+  
+command /setbal <player> <number>:
+ permission: op
+ trigger:
+  set {Coins::%arg-1%} to arg-2
+  message "<green>set player's balance to %arg-2%!"
 
 on death:
     victim is a player
